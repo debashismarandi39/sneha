@@ -94,91 +94,554 @@ body{
 @keyframes fadeIn{
     from{ opacity:0; transform:translateY(30px); }
     to{ opacity:1; transform:translateY(0); }
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Team Dashboard · ENTROPY UNIT</title>
 
-h1{
-    font-family:'Great Vibes', cursive;
-    font-size:48px;
-    color:#ff4f8b;
-    text-align:center;
-    margin-bottom:15px;
-}
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
 
-.shayari{
-    text-align:center;
-    font-size:26px;
-    color:#d6336c;
-    margin-bottom:25px;
-}
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
-p{
-    font-size:22px;
-    color:#444;
-    line-height:1.6;
-}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-.signature{
-    margin-top:25px;
-    font-size:24px;
-    color:#ff4f8b;
-    text-align:right;
-}
-</style>
+        body {
+            min-height: 100vh;
+            background: #0f0f1a;
+            background-image: radial-gradient(ellipse at 20% 30%, #1c1c30, #0a0a12);
+            font-family: 'Inter', sans-serif;
+            padding: 2rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dashboard {
+            max-width: 1300px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-radius: 48px;
+            padding: 2.5rem 2.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
+            animation: fadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        @keyframes fadeUp {
+            0% { opacity: 0; transform: translateY(30px) scale(0.97); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* ----- header ----- */
+        .dash-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header-left .icon {
+            font-size: 2rem;
+            color: #b8a898;
+        }
+
+        .header-left h1 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #f0ece6;
+            letter-spacing: -0.5px;
+        }
+
+        .header-left h1 span {
+            color: #b8a090;
+            font-weight: 400;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            color: #8a8278;
+            font-size: 0.85rem;
+        }
+
+        .header-right .badge {
+            background: rgba(80, 200, 120, 0.12);
+            color: #80c8a0;
+            padding: 0.25rem 1rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            border: 1px solid rgba(80, 200, 120, 0.08);
+        }
+
+        .header-right .badge i {
+            margin-right: 0.4rem;
+        }
+
+        /* ----- stats bar ----- */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2.8rem;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 18px;
+            padding: 0.9rem 1.2rem;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(4px);
+            transition: 0.2s;
+        }
+
+        .stat-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .stat-item .label {
+            color: #8a8278;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        .stat-item .value {
+            color: #f0ece6;
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-top: 0.2rem;
+            letter-spacing: -0.5px;
+        }
+
+        .stat-item .value small {
+            font-size: 0.8rem;
+            font-weight: 400;
+            color: #8a8278;
+            margin-left: 0.2rem;
+        }
+
+        /* ----- team grid ----- */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.8rem;
+            margin-bottom: 2.5rem;
+        }
+
+        /* ----- candidate card ----- */
+        .candidate-card {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 28px;
+            padding: 1.8rem 1.2rem 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            animation: cardPop 0.6s ease forwards;
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        .candidate-card:nth-child(1) { animation-delay: 0.05s; }
+        .candidate-card:nth-child(2) { animation-delay: 0.10s; }
+        .candidate-card:nth-child(3) { animation-delay: 0.15s; }
+        .candidate-card:nth-child(4) { animation-delay: 0.20s; }
+        .candidate-card:nth-child(5) { animation-delay: 0.25s; }
+        .candidate-card:nth-child(6) { animation-delay: 0.30s; }
+        .candidate-card:nth-child(7) { animation-delay: 0.35s; }
+        .candidate-card:nth-child(8) { animation-delay: 0.40s; }
+
+        @keyframes cardPop {
+            0% { opacity: 0; transform: scale(0.95) translateY(10px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .candidate-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.08);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ---- profile picture ---- */
+        .profile-pic {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.06);
+            background: #2a2a3a;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            transition: 0.3s;
+        }
+
+        .candidate-card:hover .profile-pic {
+            border-color: rgba(200, 180, 160, 0.2);
+            transform: scale(1.02);
+        }
+
+        .profile-pic-placeholder {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #3a3a4e, #22223a);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.6rem;
+            color: #8a8278;
+            border: 2px solid rgba(255, 255, 255, 0.04);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ---- card content ---- */
+        .candidate-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #f0ece6;
+            margin-top: 0.9rem;
+            letter-spacing: -0.3px;
+        }
+
+        .candidate-role {
+            font-size: 0.75rem;
+            color: #a89f94;
+            letter-spacing: 0.5px;
+            margin-top: 0.1rem;
+        }
+
+        .candidate-status {
+            margin-top: 0.8rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+        }
+
+        .candidate-status.qualified {
+            background: rgba(80, 200, 120, 0.08);
+            color: #80c8a0;
+            border: 1px solid rgba(80, 200, 120, 0.08);
+        }
+
+        .candidate-status.no-response {
+            background: rgba(200, 80, 60, 0.10);
+            color: #d08a7a;
+            border: 1px solid rgba(200, 80, 60, 0.08);
+            animation: pulseStatus 2s infinite;
+        }
+
+        @keyframes pulseStatus {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        .candidate-status i {
+            font-size: 0.6rem;
+        }
+
+        .candidate-score {
+            margin-top: 0.7rem;
+            font-size: 0.8rem;
+            color: #8a8278;
+        }
+
+        .candidate-score strong {
+            color: #e0d8d0;
+            font-weight: 600;
+        }
+
+        /* ----- footer ----- */
+        .dash-footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            padding-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            color: #6a6258;
+            font-size: 0.75rem;
+            letter-spacing: 0.3px;
+        }
+
+        .dash-footer .unit-tag i {
+            color: #b08a7a;
+            margin-right: 0.4rem;
+        }
+
+        .dash-footer .update-time i {
+            margin-right: 0.3rem;
+        }
+
+        /* ----- responsive ----- */
+        @media (max-width: 700px) {
+            .dashboard {
+                padding: 1.8rem 1.2rem;
+            }
+            .dash-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .header-left h1 {
+                font-size: 1.2rem;
+            }
+            .team-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                gap: 1rem;
+            }
+            .profile-pic,
+            .profile-pic-placeholder {
+                width: 70px;
+                height: 70px;
+                font-size: 2rem;
+            }
+            .candidate-name {
+                font-size: 0.95rem;
+            }
+            .stats-bar {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .team-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.8rem;
+            }
+            .candidate-card {
+                padding: 1.2rem 0.8rem;
+            }
+            .profile-pic,
+            .profile-pic-placeholder {
+                width: 60px;
+                height: 60px;
+                font-size: 1.6rem;
+            }
+            .candidate-name {
+                font-size: 0.8rem;
+            }
+            .candidate-status {
+                font-size: 0.6rem;
+                padding: 0.1rem 0.6rem;
+            }
+        }
+    </style>
 </head>
-
 <body>
 
-<!-- Clouds -->
-<div class="cloud" style="width:200px;height:60px;top:50px;left:-200px;"></div>
-<div class="cloud" style="width:260px;height:80px;top:120px;left:-300px;animation-duration:80s;"></div>
+<div class="dashboard">
 
-<!-- Smoke -->
-<div class="smoke" style="bottom:50px;left:20%;"></div>
-<div class="smoke" style="bottom:80px;right:20%;"></div>
-
-<div class="container">
-    <div class="letter">
-        <h1>Dearest Dipona 💗</h1>
-
-        <div class="shayari">
-            💓Roshan hai tujhse mere dil ka jahan,<br>
-            Jo baat tujhme hai kisi aur me kahan 💕
+    <!-- ===== HEADER ===== -->
+    <div class="dash-header">
+        <div class="header-left">
+            <div class="icon"><i class="fas fa-users"></i></div>
+            <h1>Team <span>· ENTROPY UNIT</span></h1>
         </div>
-
-        <p>
-            Main itne din se bas yehi chahta tha  
-            ki main tumhara wo friend ban saku  
-            jo tum chahti thi💝
-            jo friend tumhe chhod kar chala gaya tha.
-            <br><br>
-            Par shayad main last tak wo nahi ban saka.
-            <br><br>
-            So👋 bye.  
-            Aur shayad ab main tumhare beech nahi aunga.
-            <br><br>
-            Aur haan💓 
-            aaj last din hai,  
-            isiliye socha ki jaane se pehle  
-            main tumhe kuch de sakun.
-          <br> <br>  Best  of Luck , Exam aachhe se dena
-        </p>
-
-        <div class="signature">
-            💘 Tumhara Friend ?
+        <div class="header-right">
+            <span><i class="fas fa-calendar-alt"></i> 20 July 2026</span>
+            <span class="badge"><i class="fas fa-circle" style="color:#80c8a0; font-size:0.5rem;"></i> Live</span>
         </div>
     </div>
+
+    <!-- ===== STATS ===== -->
+    <div class="stats-bar">
+        <div class="stat-item">
+            <div class="label"><i class="fas fa-user-check"></i> Qualified</div>
+            <div class="value">7 <small>/ 8</small></div>
+        </div>
+        <div class="stat-item">
+            <div class="label"><i class="fas fa-hourglass-half"></i> No Response</div>
+            <div class="value">1</div>
+        </div>
+        <div class="stat-item">
+            <div class="label"><i class="fas fa-star"></i> Avg. Score</div>
+            <div class="value">86 <small>%</small></div>
+        </div>
+        <div class="stat-item">
+            <div class="label"><i class="fas fa-flag-checkered"></i> Batch</div>
+            <div class="value" style="font-size:1.2rem;">#2026-02</div>
+        </div>
+    </div>
+
+    <!-- ===== TEAM GRID ===== -->
+    <div class="team-grid">
+
+        <!-- 1. ASNEHALATA HANSDA (No Response) with actual image -->
+        <div class="candidate-card">
+            <img class="profile-pic"
+                 src="https://raw.githubusercontent.com/debashismarandi39/sneha/d1a1bcba0b8cd877341d4c396eb25983b1846fd0/IMG-20260713-WA0006.jpg"
+                 alt="Asnehalata Hansda"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="profile-pic-placeholder" style="display:none;">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="candidate-name">Asnehalata Hansda</div>
+            <div class="candidate-role">Applicant · ID: ENT-2026-07</div>
+            <div class="candidate-status no-response">
+                <i class="fas fa-clock"></i> No Response
+            </div>
+            <div class="candidate-score">Score: <strong>—</strong></div>
+        </div>
+
+        <!-- 2. Qualified: Arjun Mehta -->
+        <div class="candidate-card">
+            <img class="profile-pic"
+                 src="https://ui-avatars.com/api/?name=Arjun+Mehta&background=random&size=90&bold=true&color=fff"
+                 alt="Arjun Mehta"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="profile-pic-placeholder" style="display:none;"><i class="fas fa-user"></i></div>
+            <div class="candidate-name">Arjun Mehta</div>
+            <div class="candidate-role">Security Analyst</div>
+            <div class="candidate-status qualified"><i class="fas fa-check-circle"></i> Qualified</div>
+            <div class="candidate-score">Score: <strong>94%</strong></div>
+        </div>
+
+        <!-- 3. Qualified: Priya Sharma -->
+        <div class="candidate-card">
+            <img class="profile-pic"
+                 src="https://ui-avatars.com/api/?name=Priya+Sharma&background=random&size=90&bold=true&color=fff"
+                 alt="Priya Sharma"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="profile-pic-placeholder" style="display:none;"><i class="fas fa-user"></i></div>
+            <div class="candidate-name">Priya Sharma</div>
+            <div class="candidate-role">Red Team Engineer</div>
+            <div class="candidate-status qualified"><i class="fas fa-check-circle"></i> Qualified</div>
+            <div class="candidate-score">Score: <strong>91%</strong></div>
+        </div>
+
+        <!-- 4. Qualified: Rahul Verma -->
+        <div class="candidate-card">
+            <img class="profile-pic"
+                 src="https://ui-avatars.com/api/?name=Rahul+Verma&background=random&size=90&bold=true&color=fff"
+                 alt="Rahul Verma"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="profile-pic-placeholder" style="display:none;"><i class="fas fa-user"></i></div>
+            <div class="candidate-name">Rahul Verma</div>
+            <div class="candidate-role">Penetration Tester</div>
+            <div class="candidate-status qualified"><i class="fas fa-check-circle"></i> Qualified</div>
+            <div class="candidate-score">Score: <strong>88%</strong></div>
+        </div>
+
+        <!-- 5. Qualified: Sneha Patel -->
+        <div class="candidate-card">
+            <img class="profile-pic"
+                 src="https://ui-avatars.com/api/?name=Sneha+Patel&background=random&size=90&bold=true&color=fff"
+                 alt="Sneha Patel"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="profile-pic-placeholder" style="display:none;"><i class="fas fa-user"></i></div>
+            <div class="candidate-name">Sneha Patel</div>
+            <div class="candidate-role">Threat Researcher</div>
+            <div class="candidate-status qualified"><i class="fas fa-check-circle"></i> Qualified</div>
+            <div class="candidate-score">Score: <strong>87%</strong></div>
+        </div>
+
+        <!-- 6. Qualified: Vikram Singh -->
+        <div class="candidate-card">
+            <img class="profile-pic"
+                 src="https://ui-avatars.com/api/?name=Vikram+Singh&background=random&size=90&bold=true&color=fff"
+                 alt="Vikram Singh"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="profile-pic-placeholder" style="display:none;"><i class="fas fa-user"></i></div>
+            <div class="candidate-name">Vikram Singh</div>
+            <div class="candidate-role">Vulnerability Analyst</div>
+            <div class="candidate-status qualified"><i class="fas fa-check-circle"></i> Qualified</div>
+            <div class="candidate-score">Score: <strong>84%</strong></div>
+        </div>
+
+        <!-- 7. Qualified: Ananya Reddy -->
+        <div class="candidate-card">
+            <img class="profile-pic"
+                 src="https://ui-avatars.com/api/?name=Ananya+Reddy&background=random&size=90&bold=true&color=fff"
+                 alt="Ananya Reddy"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="profile-pic-placeholder" style="display:none;"><i class="fas fa-user"></i></div>
+            <div class="candidate-name">Ananya Reddy</div>
+            <div class="candidate-role">Security Researcher</div>
+            <div class="candidate-status qualified"><i class="fas fa-check-circle"></i> Qualified</div>
+            <div class="candidate-score">Score: <strong>82%</strong></div>
+        </div>
+
+        <!-- 8. Qualified: Karan Joshi -->
+        <div class="candidate-card">
+            <img class="profile-pic"
+                 src="https://ui-avatars.com/api/?name=Karan+Joshi&background=random&size=90&bold=true&color=fff"
+                 alt="Karan Joshi"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="profile-pic-placeholder" style="display:none;"><i class="fas fa-user"></i></div>
+            <div class="candidate-name">Karan Joshi</div>
+            <div class="candidate-role">Ethical Hacker</div>
+            <div class="candidate-status qualified"><i class="fas fa-check-circle"></i> Qualified</div>
+            <div class="candidate-score">Score: <strong>79%</strong></div>
+        </div>
+
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <div class="dash-footer">
+        <div class="unit-tag">
+            <i class="fas fa-shield-halved"></i> ENTROPY UNIT · Gray Hat Red Teaming
+        </div>
+        <div class="update-time">
+            <i class="fas fa-sync-alt fa-spin"></i> Auto-refresh · Trainer: CyberXcode
+        </div>
+    </div>
+
 </div>
 
+<!-- ===== fallback script ===== -->
 <script>
-/* Hearts Generator */
-for(let i=0;i<30;i++){
-    let heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerHTML = "?";
-    heart.style.left = Math.random()*100 + "vw";
-    heart.style.animationDuration = (4 + Math.random()*4) + "s";
-    document.body.appendChild(heart);
-}
+    (function() {
+        const imgs = document.querySelectorAll('.candidate-card img.profile-pic');
+        imgs.forEach(img => {
+            img.addEventListener('error', function() {
+                this.style.display = 'none';
+                const placeholder = this.nextElementSibling;
+                if (placeholder && placeholder.classList.contains('profile-pic-placeholder')) {
+                    placeholder.style.display = 'flex';
+                }
+            });
+        });
+    })();
 </script>
 
 </body>
